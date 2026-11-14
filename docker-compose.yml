@@ -23,7 +23,7 @@ services:
     env_file: .env
     environment:
       DB_HOST: db
-    command: python manage.py runserver 0.0.0.0:8000
+    command: sh -c "python manage.py migrate --fake-initial --run-syncdb --noinput && python manage.py runserver 0.0.0.0:8000"
     volumes:
       - ./backend:/app
     ports:
@@ -36,8 +36,6 @@ services:
     build: ./frontend
     container_name: viloyat_frontend
     restart: unless-stopped
-    environment:
-      VITE_API_URL: http://localhost:8000
     command: npm run dev -- --host 0.0.0.0 --port 5173
     volumes:
       - ./frontend:/app
