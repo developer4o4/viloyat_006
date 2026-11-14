@@ -100,7 +100,7 @@ export default function App() {
   return (
     <div className="app-shell">
       <aside className="sidebar">
-        <a className="brand" href="#home" aria-label="YukYo'l bosh sahifa"><span className="brand-mark"><ArrowLeftRight size={20} /></span><span className="brand-name">yukyo'l<span>.</span></span></a>
+        <a className="brand" href="#home" aria-label="YukGOo bosh sahifa"><span className="brand-mark"><ArrowLeftRight size={20} /></span><span className="brand-name">yukGoo<span>.</span></span></a>
         <div className="workspace-switcher"><span className="workspace-icon"><Truck size={17} /></span><span className="workspace-copy"><strong>Yuk tashish</strong><small>O'zbekiston bo'ylab</small></span><ArrowUpRight size={14} className="muted-icon" /></div>
         <p className="nav-label">ASOSIY</p>
         <nav className="primary-nav" aria-label="Asosiy menyu">
@@ -119,7 +119,7 @@ export default function App() {
           <section className="page-heading"><div><p className="eyebrow"><span className="eyebrow-line" /> KICHIK YUKLAR UCHUN QATNOVLAR</p><h1>{view === "create" ? <>Yukingizga mos <em>qatnov.</em></> : <>Yuklaringiz <em>yo'lda.</em></>}</h1><p className="page-subtitle">{view === "create" ? "Yo'nalishni tanlang, mavjud qatnovni toping va yukingizni yuboring." : "Yaratilgan yuk so'rovlaringiz holati va qatnov ma'lumotlari."}</p></div><div className="heading-badge"><span className="badge-icon"><ShieldCheck size={16} /></span> Ishonchli qatnovlar</div></section>
           {notice && <div className={`notice ${notice.type}`} role="status"><span>{notice.text}</span><button type="button" onClick={() => setNotice(null)} aria-label="Xabarni yopish"><X size={15} /></button></div>}
           {view === "create" ? <div className="content-grid"><ShipmentForm routes={routes} status={status} onSubmit={createShipment} saving={saving} /><RouteSummary routes={routes} status={status} /></div> : <ShipmentList shipments={shipments} onCreate={() => setView("create")} />}
-          <footer className="page-footer"><span>YUKYO'L <span className="footer-separator">/</span> QATNOVLAR VA YUKLAR</span><span><span className="footer-status" /> Tizim ishlayapti</span></footer>
+          <footer className="page-footer"><span>YUKGoo <span className="footer-separator">/</span> QATNOVLAR VA YUKLAR</span><span><span className="footer-status" /> Tizim ishlayapti</span></footer>
         </div>
       </main>
     </div>

@@ -5,7 +5,7 @@ from .models import Shipment
 
 @admin.register(Shipment)
 class ShipmentAdmin(admin.ModelAdmin):
-    list_display = ("code", "sender_name", "route", "departure_slot", "status", "created_at")
+    list_display = ("code", "sender_name", "route", "departure_slot", "status", "created_at", "status")
     list_filter = ("status", "route", "created_at")
     search_fields = ("code", "sender_name", "cargo_description")
     readonly_fields = ("code", "created_at", "tracking_token_hash")
