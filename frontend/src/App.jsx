@@ -34,6 +34,38 @@ export default function App() {
     return () => { active = false; };
   }, []);
 
+  useEffect(() => {
+    if (view !== "shipments") return undefined;
+    let active = true;
+
+    const refreshStatuses = async () => {
+      const currentShipments = readShipments();
+      const updatedShipments = await Promise.all(currentShipments.map(async (shipment) => {
+        if (!shipment.tracking_token) return shipment;
+        try {
+          const result = await request("/api/shipments/status/", {
+            method: "POST",
+            body: JSON.stringify({ tracking_token: shipment.tracking_token }),
+          });
+          return { ...shipment, ...result.shipment };
+        } catch {
+          return shipment;
+        }
+      }));
+
+      if (!active) return;
+      localStorage.setItem("shipments", JSON.stringify(updatedShipments));
+      setShipments(updatedShipments);
+    };
+
+    refreshStatuses();
+    const intervalId = window.setInterval(refreshStatuses, 10000);
+    return () => {
+      active = false;
+      window.clearInterval(intervalId);
+    };
+  }, [view]);
+
   const createShipment = async (values, resetForm) => {
     setSaving(true);
     setNotice(null);
@@ -48,7 +80,7 @@ export default function App() {
         }),
       });
       setShipments((current) => {
-        const updated = [result.shipment, ...current];
+        const updated = [{ ...result.shipment, tracking_token: result.tracking_token }, ...current];
         localStorage.setItem("shipments", JSON.stringify(updated));
         return updated;
       });
@@ -76,7 +108,7 @@ export default function App() {
           <button className={`nav-item ${view === "shipments" ? "active" : ""}`} type="button" onClick={openShipments}><PackageCheck size={17} /> Mening yuklarim <span className="nav-count">{shipments.length}</span></button>
         </nav>
         <div className="sidebar-bottom">
-          <a className="nav-item help-link" href="mailto:yordam@yukyol.uz"><CircleHelp size={17} /> Yordam</a>
+          {/* <a className="nav-item help-link" href="mailto:yordam@yukyol.uz"><CircleHelp size={17} /> Yordam</a> */}
           <div className="sidebar-note"><PackageCheck size={15} /><span>Yuklar bo'limi</span></div>
         </div>
       </aside>

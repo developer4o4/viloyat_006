@@ -2,7 +2,14 @@ from django.db import models
 
 
 class Shipment(models.Model):
+    class Status(models.TextChoices):
+        PENDING = "pending", "Tasdiqlash kutilmoqda"
+        APPROVED = "approved", "Tasdiqlandi, yuborilmoqda"
+        REJECTED = "rejected", "Rad etildi"
+
     code = models.CharField(max_length=24, unique=True, blank=True)
+    status = models.CharField(max_length=16, choices=Status.choices, default=Status.PENDING)
+    tracking_token_hash = models.CharField(max_length=64, unique=True, null=True, blank=True, editable=False)
     route = models.ForeignKey("routes.Route", on_delete=models.PROTECT, related_name="shipments")
     departure_slot = models.ForeignKey("routes.DepartureSlot", on_delete=models.PROTECT, related_name="shipments")
     sender_name = models.CharField(max_length=120)
